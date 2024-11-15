@@ -1,14 +1,10 @@
-// COMSC-210 | Lab 32 | Xiao Zhang
-//  main.cpp
-//  COMSC210-Lab32
-//
-//  Created by Xiao Zhang on 11/14/24.
-//
+// COMSC-210 | Lab 33 | Xiao Zhang
 
 #include <iostream>
 #include <deque>
 #include <cstdlib>
 #include <ctime>
+#include <array>
 #include "Car.h"
 
 using namespace std;
@@ -17,56 +13,42 @@ using namespace std;
 int main() {
     srand(static_cast<unsigned int>(time(0)));
     
-    deque<Car> tollBoothLane;  // Deque to hold the line of cars at the toll booth
+   array<deque<Car>, 4> lanes;
     
     int time = 0;
 
-    // Create the initial queue with cars
-    for (int i = 0; i < 2; i++) {
-        Car car;
-        tollBoothLane.push_back(car);
+    for (auto& lane : lanes) {
+        int numCars = rand() % 3 + 1;
+        for (int i = 0; i < numCars; i++) {
+            lane.push_back(Car());
+        }
     }
 
     cout << "Initial queue:\n";
     
-    for (auto &car : tollBoothLane) {
-        car.print();
-    }
-    cout << endl;
-
-    
-
-    // Run the loop until the whole queue is empty
-    while (!tollBoothLane.empty()) {
-        time++;
-        int action = rand() % 100;
+    for (int i = 0; i < 4; i++){
+        cout<<"Lane "<<i+1<<":"<<endl;
         
-        cout << "Time: " << time << " Operation: ";
-
-        if (action < 55) {  // 55% chance to let the first car pay and leave
-            cout << "Car paid: ";
-            tollBoothLane.front().print();
-            tollBoothLane.pop_front();  // Remove the car
-        }
-        else {  // 45% chance a new car joins the line
-            Car newCar;
-            cout << "Joined lane: ";
-            newCar.print();
-            tollBoothLane.push_back(newCar);  // Add the car to the back
-        }
-
-        // Display the current queue
-        cout << "Queue:\n";
-        if (tollBoothLane.empty()) {
+        if(lanes[i].empty()){
             cout << "\tEmpty\n";
         }
-        else {
-            for (auto &car : tollBoothLane) {
-                cout << "\t";
+        else{
+           for (const auto& car : lanes[i]){
+               cout << "\t";
                 car.print();
-            }
+           }
         }
-        cout << endl;
+
+    }
+
+    for (int ti = 1; ti <= 20; ti++){
+        cout << "Time: " << ti <<endl;
+        for(int i = 0; i < 4; i++){
+            int rad = rand() % 100;
+            cout<<"Lane "<<i+1<<":"<<endl;
+            
+        }
+    }
 
     }
 
