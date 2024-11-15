@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 int main() {
     srand(static_cast<unsigned int>(time(0)));
     
@@ -24,39 +23,36 @@ int main() {
 
     cout << "Initial queue:\n";
     
-    for (int i = 0; i < 4; i++){
-        cout<<"Lane "<<i+1<<":"<<endl;
-        
-        if(lanes[i].empty()){
+    for (int i = 0; i < 4; i++) {
+        cout << "Lane " << i + 1 << ":\n";
+        if (lanes[i].empty()) {
             cout << "\tEmpty\n";
+        } else {
+            for (auto& car : lanes[i]) {
+                cout << "\t";
+                car.print();
+            }
         }
-        else{
-           for (auto& car : lanes[i]){
-               cout << "\t";
-            car.print();
-           }
-        }
-
     }
 
-    for (int ti = 1; ti <= 20; ti++){
-        cout << "Time: " << ti <<endl;
-        for(int i = 0; i < 4; i++){
-            int rad = rand() % 100;
-            cout<<"Lane "<<i+1<<":"<<endl;
+    cout << endl;
 
-            if(!lanes[i].empty()){
-                if(rad < 46){
+    for (int ti = 1; ti <= 20; ti++) {
+        cout << "Time: " << ti << endl;
+        for (int i = 0; i < 4; i++) {
+            int rad = rand() % 100;
+            cout << "Lane " << i + 1 << ": ";
+            if (!lanes[i].empty()) {
+                if (rad < 46) {
                     cout << "Paid: ";
                     lanes[i].front().print();
                     lanes[i].pop_front();
-                }
-                else if (rad < 85){
+                } else if (rad < 85) {
                     Car newCar;
                     cout << "Joined: ";
                     newCar.print();
                     lanes[i].push_back(newCar);
-                }else{
+                } else {
                     int newlane;
                     do {
                         newlane = rand() % 4; // Pick a new random lane
@@ -68,17 +64,31 @@ int main() {
 
                     cout << "Switched: ";
                     switchcar.print();
-                    cout << " to Lane " << newlane + 1;
                 }
-            }
-            else{
-                if(rand() % 2 == 0){
-                    
+            } else {
+                if (rand() % 2 == 0) {
+                    Car newCar;
+                    cout << "Joined: ";
+                    newCar.print();
+                    lanes[i].push_back(newCar);
                 }
             }
         }
-    }
-    
-    return 0;
+        
+        // Print queues after each time step
+        for (int i = 0; i < 4; i++) {
+            cout << "Lane " << i + 1 << " Queue:\n";
+            if (lanes[i].empty()) {
+                cout << "\tEmpty\n";
+            } else {
+                for (auto& car : lanes[i]) {
+                    cout << "\t";
+                    car.print();
+                }
+            }
+        }
+        cout << endl;
     }
 
+    return 0;
+}
